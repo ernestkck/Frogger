@@ -1,4 +1,4 @@
-package com.example.ernes.spaceinvader2;
+package com.example.ernes.frogger;
 
 import org.junit.Test;
 

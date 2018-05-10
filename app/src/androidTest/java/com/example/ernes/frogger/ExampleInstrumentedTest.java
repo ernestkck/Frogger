@@ -1,4 +1,4 @@
-package com.example.ernes.spaceinvader2;
+package com.example.ernes.frogger;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.ernes.spaceinvader2", appContext.getPackageName());
+        assertEquals("com.example.ernes.frogger", appContext.getPackageName());
     }
 }

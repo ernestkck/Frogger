@@ -1,4 +1,4 @@
-package com.example.ernes.spaceinvader2;
+package com.example.ernes.frogger;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
