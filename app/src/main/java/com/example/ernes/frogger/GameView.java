@@ -9,19 +9,24 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends View implements View.OnTouchListener, Runnable {
     float viewWidth, viewHeight;
     float frogX, frogY, radius = 60.0f, xt, yt, speed;
-    float[][] car = new float[3][], log = new float[3][];
+    float[] carY = new float[3], logY = new float[3];
+    ArrayList<MovingObject> cars = new ArrayList<>();
+    ArrayList<MovingObject> logs = new ArrayList<>();
     Handler timer;
     int score = 0;
-    boolean xdir;
-    Bitmap frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);
+
+    BitmapFactory.Options opts = new BitmapFactory.Options();
+    Bitmap frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog, opts);
     Paint p = new Paint();
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
@@ -35,15 +40,35 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        Log.d("game", "onSizeChanged!");
         viewWidth = w;
         viewHeight = h;
-        frogX = viewWidth / 2 - 25;
-        frogY = viewHeight - 200;
+        frogX = viewWidth / 2 - frogImage.getWidth()/2;
+        frogY = viewHeight - 150;
+        Log.d("game", "Frog width: "+  frogImage.getWidth() + " height: " + frogImage.getHeight());
+
+        carY[0] = viewHeight - 300;
+        carY[1] = viewHeight - 480;
+        carY[2] = viewHeight- 660;
+        logY[0] = 200;
+        logY[1] = 350;
+        logY[2] = 500;
+
+        cars.add(new MovingObject(0, carY[0], 1.5f, 200.0f));
+        cars.add(new MovingObject(viewWidth, carY[1], -1.5f, 200.0f));
+        cars.add(new MovingObject(0, carY[2], 1.5f, 200.0f));
+
+        logs.add(new MovingObject(viewWidth, logY[0], -1.5f, 200.0f));
+        logs.add(new MovingObject(0, logY[1], 1.5f, 200.0f));
+        logs.add(new MovingObject(viewWidth, logY[2], -1.5f, 200.0f));
+
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int count = 0;
 
         /*p.setColor(Color.BLACK);
         p.setTextSize(70);
@@ -51,18 +76,25 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
         // Draw river
         p.setColor(Color.CYAN);
-        canvas.drawRect(0, 150, viewWidth , 700, p);
+        canvas.drawRect(0, 120, viewWidth , 650, p);
         //canvas.drawCircle(viewWidth/2, viewHeight-100, radius, p);
 
         // Draw frog
         canvas.drawBitmap(frogImage, frogX, frogY, p);
 
         // Draw click location
-        p.setColor(Color.YELLOW);
+        p.setColor(Color.RED);
         canvas.drawCircle(xt, yt, 20.0f, p);
 
-        p.setColor(Color.RED);
-        canvas.drawLine(viewWidth/2, viewHeight/2, viewWidth/2, viewHeight/2 + 100, p);
+        // Draw cars
+        p.setColor(Color.BLACK);
+        for(MovingObject c : cars)
+            canvas.drawRect(c.x, c.y, c.x+c.length, c.y+80.0f, p);
+
+        // Draw logs
+        p.setColor(Color.parseColor("#A52A2A"));
+        for(MovingObject c : logs)
+            canvas.drawRect(c.x, c.y, c.x+c.length, c.y+80.0f, p);
     }
 
 
@@ -83,23 +115,14 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
     @Override
     public void run(){
-        if(xdir){
-            //xpos += speed;
-            //if(xpos >= viewWidth-radius) xdir = false;
+        for(MovingObject c : cars) {
+            c.x += c.speed;
         }
-        else{
-            //xpos -= speed;
-            //if(xpos <= radius) xdir = true;
+        for(MovingObject c : logs) {
+            c.x += c.speed;
         }
-        /*if(ydir){
-            ypos += speed;
-            if(ypos >= viewHeight - 100 - 2*radius) ydir = false;
-        }
-        else{
-            ypos -= speed;
-            if(ypos <= radius) ydir = true;
-        }*/
         this.invalidate();
+
         timer.postDelayed(this, 10);
     }
 
