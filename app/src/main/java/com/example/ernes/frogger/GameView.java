@@ -1,6 +1,8 @@
 package com.example.ernes.frogger;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,11 +16,13 @@ import java.util.Random;
 
 public class GameView extends View implements View.OnTouchListener, Runnable {
     float viewWidth, viewHeight;
-    float xpos, ypos, radius = 60.0f, xt, yt, speed;
+    float frogX, frogY, radius = 60.0f, xt, yt, speed;
+    float[][] car = new float[3][], log = new float[3][];
     Handler timer;
     int score = 0;
-    boolean xdir, ydir;
-
+    boolean xdir;
+    Bitmap frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);
+    Paint p = new Paint();
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -27,31 +31,38 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         timer.postDelayed(this, 10);
     }
 
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         viewWidth = w;
         viewHeight = h;
-        xpos = viewWidth/2;
-        ypos = viewHeight/2;
+        frogX = viewWidth / 2 - 25;
+        frogY = viewHeight - 200;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Paint p = new Paint();
-        p.setColor(Color.BLACK);
+        /*p.setColor(Color.BLACK);
         p.setTextSize(70);
-        canvas.drawText("Score: "+ score, 100,100, p);
+        canvas.drawText("Score: "+ score, 100,100, p);*/
 
-        p = new Paint();
-        p.setColor(Color.RED);
-        canvas.drawCircle(xpos, ypos, radius, p);
+        // Draw river
+        p.setColor(Color.CYAN);
+        canvas.drawRect(0, 150, viewWidth , 700, p);
+        //canvas.drawCircle(viewWidth/2, viewHeight-100, radius, p);
 
+        // Draw frog
+        canvas.drawBitmap(frogImage, frogX, frogY, p);
+
+        // Draw click location
         p.setColor(Color.YELLOW);
         canvas.drawCircle(xt, yt, 20.0f, p);
 
+        p.setColor(Color.RED);
+        canvas.drawLine(viewWidth/2, viewHeight/2, viewWidth/2, viewHeight/2 + 100, p);
     }
 
 
@@ -61,8 +72,7 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             xt = event.getX();
             yt = event.getY();
-            if(yt >= viewHeight - 100) score = 0;
-            else if(dist(xpos, ypos, xt, yt) <= radius) score++;
+
 
             updateSpeed();
 
@@ -74,21 +84,21 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     public void run(){
         if(xdir){
-            xpos += speed;
-            if(xpos >= viewWidth-radius) xdir = false;
+            //xpos += speed;
+            //if(xpos >= viewWidth-radius) xdir = false;
         }
         else{
-            xpos -= speed;
-            if(xpos <= radius) xdir = true;
+            //xpos -= speed;
+            //if(xpos <= radius) xdir = true;
         }
-        if(ydir){
+        /*if(ydir){
             ypos += speed;
             if(ypos >= viewHeight - 100 - 2*radius) ydir = false;
         }
         else{
             ypos -= speed;
             if(ypos <= radius) ydir = true;
-        }
+        }*/
         this.invalidate();
         timer.postDelayed(this, 10);
     }
@@ -96,8 +106,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
     private void updateSpeed(){
         Random rand = new Random();
-        xdir = rand.nextBoolean();
-        ydir = rand.nextBoolean();
         speed = (float) (rand.nextFloat()+0.3) * 8;
     }
     private float dist(float x1, float y1, float x2, float y2){
