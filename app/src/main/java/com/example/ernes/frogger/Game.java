@@ -64,8 +64,8 @@ public class Game {
     }
 
     public void step() {
-        logs.step();
-        trucks.step();
+        for(Logs logrow : logs) logrow.step();
+        for(Trucks truckrow : trucks) truckrow.step();
     }
 
     public boolean frogKilled() {
