@@ -10,16 +10,18 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameView extends View implements View.OnTouchListener, Runnable {
+public class GameView extends View implements Runnable, GestureDetector.OnGestureListener {
     public static final int STEPDELAY= 50;
     float viewWidth, viewHeight;
-    float frogX, frogY, radius = 60.0f, xt, yt, speed;
+    float xt, yt;
+
 
     float[] carY = new float[3], logY = new float[3];
     ArrayList<MovingObject> cars = new ArrayList<>();
@@ -39,7 +41,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(3.0f);
-        this.setOnTouchListener(this);
         observers = new ArrayList<GameOver>();
         game = new Game();
         timer = new Handler();
@@ -60,9 +61,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         Log.d("game", "onSizeChanged!");
         viewWidth = w;
         viewHeight = h;
-        frogX = viewWidth / 2 - frogImage.getWidth()/2;
-        frogY = viewHeight - 150;
-        Log.d("game", "Frog width: "+  frogImage.getWidth() + " height: " + frogImage.getHeight());
 
         carY[0] = viewHeight - 300;
         carY[1] = viewHeight - 480;
@@ -94,22 +92,6 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
 
     @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            float w = (float) view.getWidth();
-            float h = (float) view.getHeight();
-            xt = event.getX();
-            yt = event.getY();
-            game.touch(xt / w, yt / h);
-            this.invalidate();
-        }
-        else if(event.getAction() == MotionEvent.ACTION_UP){
-
-        }
-        return true;
-    }
-
-    @Override
     public void run(){
         if(step()){
             timer.postDelayed(this, STEPDELAY);
@@ -135,6 +117,36 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         observers.add(gameover);
     }
 
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float v1, float v2) {
+        game.touch(e1, e2, v1, v2);
+        return true;
+    }
 }
 
 

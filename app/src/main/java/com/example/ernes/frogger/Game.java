@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.view.MotionEvent;
 
 public class Game {
 
@@ -43,12 +44,14 @@ public class Game {
 
     }
 
-    public void touch(float x, float y){
-        if (y < 0.6) frog.pos.y -= 0.05f;
+    public void touch(MotionEvent e1, MotionEvent e2, float x, float y){
+        if(Math.abs(x) > Math.abs(y)){
+            if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
+            else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
+        }
         else{
-            if(x > 0.6) frog.pos.x += 0.05f;
-            else if (x < 0.4) frog.pos.x -= 0.05f;
-            else frog.pos.y += 0.05f;
+            if (e1.getY() < e2.getY()) frog.pos.y += 0.05f;
+            else if (e1.getY() > e2.getY()) frog.pos.y -= 0.05f;
         }
     }
 
