@@ -1,12 +1,11 @@
 package com.example.ernes.frogger;
 
 public class MovingObject {
-
-    float x, y, speed, length;
+    Pos pos;
+    float speed, length;
 
     MovingObject(float x, float y, float speed, float length){
-        this.x = x;
-        this.y = y;
+        this.pos = new Pos(x, y);
         this.speed = speed;
         this.length = length;
     }

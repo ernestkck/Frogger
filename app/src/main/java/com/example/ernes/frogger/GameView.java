@@ -131,9 +131,7 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         Random rand = new Random();
         speed = (float) (rand.nextFloat()+0.3) * 8;
     }
-    private float dist(float x1, float y1, float x2, float y2){
-        return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-    }
+
 }
 
 
