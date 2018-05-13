@@ -7,8 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Debug;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
+
+import java.util.ArrayList;
 
 public class Game {
 
@@ -21,16 +24,28 @@ public class Game {
 
 
     Frog frog;
-    private Logs[] logs;
-    private Trucks[] trucks;
+    private Logs logs;
+    private Trucks trucks;
+
+    ArrayList<Logs> logss;
 
     private boolean frogKilled;
 
 
     public Game(){
         frog = new Frog();
-        Logs[] logs = new Logs[LOGROWS];
-        Trucks[] trucks = new Trucks[TRUCKROWS];
+        logs = new Logs(true, 0.3f);
+
+        logs.add(new Log(0, 0.3f));
+
+        /*for(int i = 0; i < LOGROWS; i++){
+            logs[i] = new Logs(i%2 == 0, 0.3f);
+            logs[i].add(new Log(0, 0.3f));
+        }*/
+        /*Trucks[] trucks = new Trucks[TRUCKROWS];
+        for(int i = 0; i < TRUCKROWS; i++){
+            trucks[i] = new Trucks(i%2 == 0);
+        }*/
         frogKilled = false;
     }
 
@@ -41,8 +56,12 @@ public class Game {
         canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
 
         frog.draw(canvas, paint, frogImage);
-        for(Logs logrow : logs) logrow.draw(canvas, paint, logImage);
-        for(Trucks truckrow : trucks) truckrow.draw(canvas, paint, truckImages);
+        logs.draw(canvas, paint, logImage);
+        //logss.get(0).draw(canvas, paint, logImage);
+        /*logs[0].add(new Log(0, 0.03f));
+        logs[0].get(0).draw(canvas, paint, logImage);*/
+        //for(Logs logrow : logs) logrow.draw(canvas, paint, logImage);
+        //for(Trucks truckrow : trucks) truckrow.draw(canvas, paint, truckImages);
 
     }
 
@@ -64,8 +83,9 @@ public class Game {
     }
 
     public void step() {
-        for(Logs logrow : logs) logrow.step();
-        for(Trucks truckrow : trucks) truckrow.step();
+        logs.step();
+        //for(Logs logrow : logs) logrow.step();
+        //for(Trucks truckrow : trucks) truckrow.step();
     }
 
     public boolean frogKilled() {

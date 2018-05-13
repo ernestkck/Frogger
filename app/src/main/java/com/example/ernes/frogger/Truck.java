@@ -7,11 +7,13 @@ import android.graphics.Paint;
 import java.util.Random;
 
 public class Truck extends Sprite {
+
+    private static final float VELOCITY = 0.06f;
     float v;
     Random random = new Random();
 
-    public Truck(float v){
-        this.v = v;
+    public Truck(){
+        this.v = VELOCITY;
     }
 
     public void draw(Canvas c, Paint p, Bitmap[] images) {

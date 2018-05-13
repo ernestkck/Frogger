@@ -6,10 +6,12 @@ import android.graphics.Paint;
 
 public class Log extends Sprite {
 
+    private static final float VELOCITY = 0.06f;
     float v;
 
-    public Log(float v){
-        this.v = v;
+    public Log(float x, float y){
+        this.v = VELOCITY;
+        this.pos = new Pos(x, y);
     }
 
     @Override
