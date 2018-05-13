@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Trucks extends ArrayList<Truck> {
     public static final float TRUCKSTEP = 0.06f;
 
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas c, Paint p) {
     }
 
     public void step() {

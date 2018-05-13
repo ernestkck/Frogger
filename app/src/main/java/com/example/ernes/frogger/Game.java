@@ -1,8 +1,13 @@
 package com.example.ernes.frogger;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 
 public class Game {
 
@@ -12,7 +17,7 @@ public class Game {
     static final int TRUCKROWS = 3;
 
 
-    private Frog frog;
+    Frog frog;
     private Logs logs;
     private Trucks trucks;
 
@@ -20,24 +25,27 @@ public class Game {
 
 
     public Game(){
-        frog = new Frog(0.5f, 0.9f);
+        frog = new Frog();
         logs = new Logs();
         trucks = new Trucks();
+        frogKilled = false;
     }
 
-    public void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint, Bitmap frogImage){
 
         // Draw river
         paint.setColor(Color.CYAN);
         canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
 
-        frog.draw(canvas, paint);
+        frog.draw(canvas, paint, frogImage);
         logs.draw(canvas, paint);
         trucks.draw(canvas, paint);
 
     }
 
     public void touch(float x, float y){
+
+
         // TODO: implement controls for movement of frog, 4 IF cases
 
     }

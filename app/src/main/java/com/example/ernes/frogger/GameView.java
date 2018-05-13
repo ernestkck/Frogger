@@ -27,10 +27,8 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     Handler timer;
     Game game;
 
-    BitmapFactory.Options opts = new BitmapFactory.Options();
-    Bitmap frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog, opts);
     Paint paint;
-
+    Bitmap frogImage;
     ArrayList<GameOver> observers;
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
@@ -43,6 +41,8 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         game = new Game();
         timer = new Handler();
         timer.postDelayed(this, STEPDELAY);
+        frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);;
+
     }
 
 
@@ -77,24 +77,21 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        game.draw(canvas, paint);
-
-        /*p.setColor(Color.BLACK);
-        p.setTextSize(70);
-        canvas.drawText("Score: "+ score, 100,100, p);*/
-
+        game.draw(canvas, paint, frogImage);
+        // Draw click location
+        paint.setColor(Color.RED);
+        canvas.drawCircle(xt, yt, 20.0f, paint);
     }
 
 
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        /*if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             xt = event.getX();
             yt = event.getY();
-            updateSpeed();
             this.invalidate();
-        }*/
+        }
         float w = (float) view.getWidth();
         float h = (float) view.getHeight();
         game.touch(event.getX() / w, event.getY() / h);
