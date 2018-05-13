@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends View implements View.OnTouchListener, Runnable {
-
+    public static final int STEPDELAY= 50;
     float viewWidth, viewHeight;
     float frogX, frogY, radius = 60.0f, xt, yt, speed;
 
@@ -25,17 +25,24 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     ArrayList<MovingObject> cars = new ArrayList<>();
     ArrayList<MovingObject> logs = new ArrayList<>();
     Handler timer;
-    int score = 0;
+    Game game;
 
     BitmapFactory.Options opts = new BitmapFactory.Options();
     Bitmap frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog, opts);
-    Paint p = new Paint();
+    Paint paint;
+
+    ArrayList<GameOver> observers;
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(3.0f);
         this.setOnTouchListener(this);
+        observers = new ArrayList<GameOver>();
+        game = new Game();
         timer = new Handler();
-        timer.postDelayed(this, 10);
+        timer.postDelayed(this, STEPDELAY);
     }
 
 
@@ -70,68 +77,54 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int count = 0;
+        game.draw(canvas, paint);
 
         /*p.setColor(Color.BLACK);
         p.setTextSize(70);
         canvas.drawText("Score: "+ score, 100,100, p);*/
 
-        // Draw river
-        p.setColor(Color.CYAN);
-        canvas.drawRect(0, 120, viewWidth , 650, p);
-        //canvas.drawCircle(viewWidth/2, viewHeight-100, radius, p);
-
-        // Draw frog
-        canvas.drawBitmap(frogImage, frogX, frogY, p);
-
-        // Draw click location
-        p.setColor(Color.RED);
-        canvas.drawCircle(xt, yt, 20.0f, p);
-
-        // Draw cars
-        p.setColor(Color.BLACK);
-        for(MovingObject c : cars)
-            canvas.drawRect(c.x, c.y, c.x+c.length, c.y+80.0f, p);
-
-        // Draw logs
-        p.setColor(Color.parseColor("#A52A2A"));
-        for(MovingObject c : logs)
-            canvas.drawRect(c.x, c.y, c.x+c.length, c.y+80.0f, p);
     }
 
 
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        /*if (event.getAction() == MotionEvent.ACTION_DOWN) {
             xt = event.getX();
             yt = event.getY();
-
-
             updateSpeed();
-
             this.invalidate();
-        }
+        }*/
+        float w = (float) view.getWidth();
+        float h = (float) view.getHeight();
+        game.touch(event.getX() / w, event.getY() / h);
         return true;
     }
 
     @Override
     public void run(){
-        for(MovingObject c : cars) {
-            c.x += c.speed;
+        if(step()){
+            timer.postDelayed(this, STEPDELAY);
         }
-        for(MovingObject c : logs) {
-            c.x += c.speed;
-        }
-        this.invalidate();
-
-        timer.postDelayed(this, 10);
     }
 
 
-    private void updateSpeed(){
-        Random rand = new Random();
-        speed = (float) (rand.nextFloat()+0.3) * 8;
+    public boolean step(){
+        game.step();
+        if(game.hasWon() || game.frogKilled()){
+            notifyGameOver();
+            return false;
+        }
+        this.invalidate();
+        return true;
+    }
+
+    private void notifyGameOver() {
+        for (GameOver o : observers) o.gameOver();
+    }
+
+    public void registerGameOver(GameOver gameover) {
+        observers.add(gameover);
     }
 
 }

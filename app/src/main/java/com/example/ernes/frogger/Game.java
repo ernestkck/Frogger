@@ -1,5 +1,9 @@
 package com.example.ernes.frogger;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
 public class Game {
 
     public static final float MAXXY = 1.0f;
@@ -14,9 +18,33 @@ public class Game {
 
     private boolean frogHit;
 
+
     public Game(){
         frog = new Frog(0.5f, 0.9f);
     }
 
+    public void draw(Canvas canvas, Paint paint){
 
+        // Draw river
+        paint.setColor(Color.CYAN);
+        canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
+        
+        
+
+    }
+
+    public void touch(float x, float y){
+
+    }
+
+    public void step() {
+    }
+
+    public boolean frogKilled() {
+        return false;
+    }
+
+    public boolean hasWon() {
+        return false;
+    }
 }
