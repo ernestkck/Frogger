@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends View implements View.OnTouchListener, Runnable {
+
     float viewWidth, viewHeight;
     float frogX, frogY, radius = 60.0f, xt, yt, speed;
+
     float[] carY = new float[3], logY = new float[3];
     ArrayList<MovingObject> cars = new ArrayList<>();
     ArrayList<MovingObject> logs = new ArrayList<>();
