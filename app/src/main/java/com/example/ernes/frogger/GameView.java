@@ -29,7 +29,10 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
 
     Paint paint;
     Bitmap frogImage;
+    Bitmap[] truckImages;
+    Bitmap logImage;
     ArrayList<GameOver> observers;
+
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -41,8 +44,13 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         game = new Game();
         timer = new Handler();
         timer.postDelayed(this, STEPDELAY);
-        frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);;
 
+        frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);;
+        logImage = BitmapFactory.decodeResource(getResources(), R.drawable.log);;
+        truckImages = new Bitmap[4];
+        truckImages[0] = BitmapFactory.decodeResource(getResources(), R.drawable.truck);
+        truckImages[1] = BitmapFactory.decodeResource(getResources(), R.drawable.truck_2);
+        truckImages[2] = BitmapFactory.decodeResource(getResources(), R.drawable.truck_4);
     }
 
 
@@ -77,7 +85,7 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        game.draw(canvas, paint, frogImage);
+        game.draw(canvas, paint, frogImage, logImage, truckImages);
         // Draw click location
         paint.setColor(Color.RED);
         canvas.drawCircle(xt, yt, 20.0f, paint);

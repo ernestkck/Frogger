@@ -31,15 +31,15 @@ public class Game {
         frogKilled = false;
     }
 
-    public void draw(Canvas canvas, Paint paint, Bitmap frogImage){
+    public void draw(Canvas canvas, Paint paint, Bitmap frogImage, Bitmap logImage, Bitmap[] truckImages){
 
         // Draw river
         paint.setColor(Color.CYAN);
         canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
 
         frog.draw(canvas, paint, frogImage);
-        logs.draw(canvas, paint);
-        trucks.draw(canvas, paint);
+        logs.draw(canvas, paint, logImage);
+        trucks.draw(canvas, paint, truckImages);
 
     }
 
