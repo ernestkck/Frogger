@@ -84,9 +84,6 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         game.draw(canvas, paint, frogImage, logImage, truckImages);
-        // Draw click location
-        paint.setColor(Color.RED);
-        canvas.drawCircle(xt, yt, 20.0f, paint);
     }
 
 
