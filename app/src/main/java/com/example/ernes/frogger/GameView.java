@@ -144,6 +144,7 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float v1, float v2) {
+        if(Math.abs(v1) < 100 && Math.abs(v2) < 100) return true; // ignore if the swipe is too slow
         game.touch(e1, e2, v1, v2);
         return true;
     }
