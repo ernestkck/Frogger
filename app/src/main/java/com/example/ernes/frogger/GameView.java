@@ -45,8 +45,8 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
         timer = new Handler();
         timer.postDelayed(this, STEPDELAY);
 
-        frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);;
-        logImage = BitmapFactory.decodeResource(getResources(), R.drawable.log);;
+        frogImage = BitmapFactory.decodeResource(getResources(), R.drawable.frog);
+        logImage = BitmapFactory.decodeResource(getResources(), R.drawable.log);
         truckImages = new Bitmap[4];
         truckImages[0] = BitmapFactory.decodeResource(getResources(), R.drawable.truck);
         truckImages[1] = BitmapFactory.decodeResource(getResources(), R.drawable.truck_2);
@@ -96,13 +96,16 @@ public class GameView extends View implements View.OnTouchListener, Runnable {
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float w = (float) view.getWidth();
+            float h = (float) view.getHeight();
             xt = event.getX();
             yt = event.getY();
+            game.touch(xt / w, yt / h);
             this.invalidate();
         }
-        float w = (float) view.getWidth();
-        float h = (float) view.getHeight();
-        game.touch(event.getX() / w, event.getY() / h);
+        else if(event.getAction() == MotionEvent.ACTION_UP){
+
+        }
         return true;
     }
 

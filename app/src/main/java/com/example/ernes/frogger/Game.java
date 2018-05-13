@@ -44,10 +44,12 @@ public class Game {
     }
 
     public void touch(float x, float y){
-
-
-        // TODO: implement controls for movement of frog, 4 IF cases
-
+        if (y < 0.6) frog.pos.y -= 0.05f;
+        else{
+            if(x > 0.6) frog.pos.x += 0.05f;
+            else if (x < 0.4) frog.pos.x -= 0.05f;
+            else frog.pos.y += 0.05f;
+        }
     }
 
     public void step() {
