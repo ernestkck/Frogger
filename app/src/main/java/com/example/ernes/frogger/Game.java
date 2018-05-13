@@ -11,16 +11,18 @@ public class Game {
     static final int LOGROWS = 3;
     static final int TRUCKROWS = 3;
 
-    public static final float TRUCKSTEP = 0.06f;
-    public static final float LOG = 0.06f;
 
     private Frog frog;
+    private Logs logs;
+    private Trucks trucks;
 
-    private boolean frogHit;
+    private boolean frogKilled;
 
 
     public Game(){
         frog = new Frog(0.5f, 0.9f);
+        logs = new Logs();
+        trucks = new Trucks();
     }
 
     public void draw(Canvas canvas, Paint paint){
@@ -28,16 +30,21 @@ public class Game {
         // Draw river
         paint.setColor(Color.CYAN);
         canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
-        
-        
+
+        frog.draw(canvas, paint);
+        logs.draw(canvas, paint);
+        trucks.draw(canvas, paint);
 
     }
 
     public void touch(float x, float y){
+        // TODO: implement controls for movement of frog, 4 IF cases
 
     }
 
     public void step() {
+        logs.step();
+        trucks.step();
     }
 
     public boolean frogKilled() {

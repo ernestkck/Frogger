@@ -8,4 +8,9 @@ public class Truck extends Sprite {
     public void draw(Canvas c, Paint p) {
 
     }
+
+    @Override
+    public void step() {
+
+    }
 }

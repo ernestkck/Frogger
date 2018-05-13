@@ -15,6 +15,7 @@ public class GameActivity extends AppCompatActivity implements GameOver{
 
     @Override
     public void gameOver() {
-
+        setResult(AppCompatActivity.RESULT_OK);
+        finish();
     }
 }
