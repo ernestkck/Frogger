@@ -12,10 +12,12 @@ import android.view.MotionEvent;
 
 public class Game {
 
-    public static final float MAXXY = 1.0f;
-    public static final float MINXY = 0.0f;
-    static final int LOGROWS = 3;
-    static final int TRUCKROWS = 3;
+    private static final float MAXXY = 1.0f;
+    private static final float MINXY = 0.0f;
+    private static final int LOGROWS = 3;
+    private static final int TRUCKROWS = 3;
+
+    private static final int SWIPE_THRESHOLD = 100;
 
 
     Frog frog;
@@ -45,13 +47,19 @@ public class Game {
     }
 
     public void touch(MotionEvent e1, MotionEvent e2, float x, float y){
-        if(Math.abs(x) > Math.abs(y)){
-            if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
-            else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
+        float diffX = e2.getX() - e1.getX();
+        float diffY = e2.getY() - e1.getY();
+        if(Math.abs(diffX) > Math.abs(diffY)){
+            if(Math.abs(diffX) > SWIPE_THRESHOLD) {
+                if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
+                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
+            }
         }
         else{
-            if (e1.getY() < e2.getY()) frog.pos.y += 0.05f;
-            else if (e1.getY() > e2.getY()) frog.pos.y -= 0.05f;
+            if(Math.abs(diffY) > SWIPE_THRESHOLD) {
+                if (e1.getY() < e2.getY()) frog.pos.y += 0.05f;
+                else if (e1.getY() > e2.getY()) frog.pos.y -= 0.05f;
+            }
         }
     }
 
