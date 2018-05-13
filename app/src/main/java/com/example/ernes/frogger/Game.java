@@ -21,16 +21,16 @@ public class Game {
 
 
     Frog frog;
-    private Logs logs;
-    private Trucks trucks;
+    private Logs[] logs;
+    private Trucks[] trucks;
 
     private boolean frogKilled;
 
 
     public Game(){
         frog = new Frog();
-        logs = new Logs();
-        trucks = new Trucks();
+        Logs[] logs = new Logs[LOGROWS];
+        Trucks[] trucks = new Trucks[TRUCKROWS];
         frogKilled = false;
     }
 
@@ -41,8 +41,8 @@ public class Game {
         canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
 
         frog.draw(canvas, paint, frogImage);
-        logs.draw(canvas, paint, logImage);
-        trucks.draw(canvas, paint, truckImages);
+        for(Logs logrow : logs) logrow.draw(canvas, paint, logImage);
+        for(Trucks truckrow : trucks) truckrow.draw(canvas, paint, truckImages);
 
     }
 

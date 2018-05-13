@@ -12,18 +12,6 @@ public class Frog extends Sprite {
     }
 
     @Override
-    public void draw(Canvas c, Paint p) {
-
-    }
-
-    @Override
-    public void draw(Canvas c, Paint p, Bitmap image) {
-        int h = c.getHeight();
-        int w = c.getWidth();
-        c.drawBitmap(image, pos.x * w - image.getWidth() / 2, pos.y * h, p);
-    }
-
-    @Override
     public void step() {
 
     }

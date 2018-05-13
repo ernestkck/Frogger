@@ -10,7 +10,9 @@ public class Trucks extends ArrayList<Truck> {
     public static final float TRUCKSTEP = 0.06f;
 
     public void draw(Canvas c, Paint p, Bitmap[] truckImages) {
+        for(Truck truck : this) truck.draw(c, p, truckImages);
     }
+
 
     public void step() {
     }

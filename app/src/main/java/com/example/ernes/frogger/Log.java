@@ -6,18 +6,14 @@ import android.graphics.Paint;
 
 public class Log extends Sprite {
 
-    @Override
-    public void draw(Canvas c, Paint p) {
+    float v;
 
-    }
-
-    @Override
-    public void draw(Canvas c, Paint p, Bitmap image) {
-
+    public Log(float v){
+        this.v = v;
     }
 
     @Override
     public void step() {
-
+        pos.x += v;
     }
 }
