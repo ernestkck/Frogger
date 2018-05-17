@@ -3,6 +3,7 @@ package com.example.ernes.frogger;
 /**
  * Pos - a simple xy position on the screen.  The screen
  * has xy range from 0 to 1, and 0,0 is in the top left corner.
+ * @author Ernest Kwan (u6381103)
  */
 public class Pos {
     float x;

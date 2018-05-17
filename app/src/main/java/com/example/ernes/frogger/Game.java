@@ -13,6 +13,11 @@ import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
+/**
+ *  The main game class
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class Game {
 
     private static final float MAXXY = 1.0f;

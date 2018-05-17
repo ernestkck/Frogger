@@ -7,6 +7,10 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class Trucks extends ArrayList<Truck> {
 
     public static final float TRUCKSTEP = 0.06f;

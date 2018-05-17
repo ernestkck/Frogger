@@ -6,6 +6,11 @@ import android.graphics.Paint;
 
 import java.util.Random;
 
+/**
+ *  Trucks that move below the river
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class Truck extends Sprite {
 
     private static final float VELOCITY = 0.06f;

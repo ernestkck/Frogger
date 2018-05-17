@@ -7,6 +7,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ *  The activity that holds the game
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class GameActivity extends AppCompatActivity implements GameOver{
 
     private GestureDetector gestureDetector;

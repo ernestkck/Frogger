@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+/**
+ *  The activity that holds the welcome screen
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override

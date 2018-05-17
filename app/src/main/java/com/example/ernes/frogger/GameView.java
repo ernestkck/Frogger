@@ -17,6 +17,11 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *  This is the view where the game runs on
+ *  @author Ernest Kwan (u6381103)
+ */
+
 public class GameView extends View implements Runnable, GestureDetector.OnGestureListener {
     public static final int STEPDELAY= 50;
     float viewWidth, viewHeight;

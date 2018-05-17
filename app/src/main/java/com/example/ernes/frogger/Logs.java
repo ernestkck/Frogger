@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *  @author Ernest Kwan (u6381103)
+ */
 public class Logs extends ArrayList<Log> {
     float y;
     public static final float LOGSTEP = 0.06f;
