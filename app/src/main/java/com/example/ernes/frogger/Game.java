@@ -30,7 +30,7 @@ public class Game {
 
     private static final int SWIPE_THRESHOLD = 100;
 
-    Random random = new Random();
+    Random random;
 
     Frog frog;
     private Logs[] logs;
@@ -82,14 +82,14 @@ public class Game {
         float diffY = e2.getY() - e1.getY();
         if(Math.abs(diffX) > Math.abs(diffY)){
             if(Math.abs(diffX) > SWIPE_THRESHOLD) {
-                if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
-                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
+                if (e1.getX() < e2.getX()) frog.pos.x = Math.min(frog.pos.x + 0.05f, 1.0f);
+                else if (e1.getX() > e2.getX()) frog.pos.x = Math.max(frog.pos.x - 0.05f, 0f);
             }
         }
         else{
             if(Math.abs(diffY) > SWIPE_THRESHOLD) {
-                if (e1.getY() < e2.getY()) frog.pos.y += 0.05f;
-                else if (e1.getY() > e2.getY()) frog.pos.y -= 0.05f;
+                if (e1.getY() < e2.getY()) frog.pos.y = Math.min(frog.pos.y + 0.05f, 0.9f);
+                else if (e1.getY() > e2.getY()) frog.pos.y = Math.max(frog.pos.y - 0.05f, -0.1f);
             }
         }
         System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
@@ -99,10 +99,11 @@ public class Game {
         System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
     }
     public void step() {
+        random = new Random();
         for(Trucks truckrow : trucks){
             truckrow.step();
             if(truckrow.size()<=3){
-                if(random.nextDouble() * truckrow.size() < PROBOFTRUCK)
+                if(random.nextDouble() * (truckrow.size()+1)/2 < PROBOFTRUCK)
                     truckrow.add(new Truck(0f, truckrow.y));
             }
         }
@@ -110,7 +111,7 @@ public class Game {
         for(Logs logrow : logs){
             logrow.step();
             if(logrow.size()<=3){
-                if(random.nextDouble() * logrow.size() < PROBOFLOG)
+                if(random.nextDouble() * (logrow.size()+1)/2 < PROBOFLOG)
                     logrow.add(new Log(1.0f, logrow.y));
             }
         }
