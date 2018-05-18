@@ -82,8 +82,8 @@ public class Game {
         float diffY = e2.getY() - e1.getY();
         if(Math.abs(diffX) > Math.abs(diffY)){
             if(Math.abs(diffX) > SWIPE_THRESHOLD) {
-                if (e1.getX() < e2.getX()) frog.pos.x = Math.min(frog.pos.x + 0.05f, 1.0f);
-                else if (e1.getX() > e2.getX()) frog.pos.x = Math.max(frog.pos.x - 0.05f, 0f);
+                if (e1.getX() < e2.getX()) frog.pos.x = Math.min(frog.pos.x + 0.1f, 1.0f);
+                else if (e1.getX() > e2.getX()) frog.pos.x = Math.max(frog.pos.x - 0.1f, 0f);
             }
         }
         else{
@@ -119,7 +119,7 @@ public class Game {
         // if hit by a truck
         for(Trucks truckrow : trucks) {
             for (Truck t : truckrow) {
-                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.05f )
+                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.07f )
                     frogKilled = true;
             }
         }
