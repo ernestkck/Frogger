@@ -36,7 +36,7 @@ public class Game {
     private Logs[] logs;
     private Trucks[] trucks;
 
-    private boolean frogKilled;
+    private boolean frogKilled, hasWon;
 
     public Game(){
         frog = new Frog();
@@ -114,7 +114,7 @@ public class Game {
         // if hit by a truck
         for(Trucks truckrow : trucks) {
             for (Truck t : truckrow) {
-                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.02f )
+                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.03f )
                     frogKilled = true;
             }
         }
@@ -128,6 +128,9 @@ public class Game {
                 }
             }
         }
+        // Win
+        if(frog.pos.y<01)
+            hasWon = true;
     }
 
     public boolean frogKilled() {
@@ -135,8 +138,6 @@ public class Game {
     }
 
     public boolean hasWon() {
-        if(frog.pos.y<01)
-            return true;
-        else return false;
+        return hasWon;
     }
 }
