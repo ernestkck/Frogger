@@ -25,7 +25,7 @@ public class Game {
     public static final float MINXY = 0.0f;
     static final int LOGROWS = 3;
     static final int TRUCKROWS = 3;
-    public static final double PROBOFLOG = 0.02;
+    public static final double PROBOFLOG = 0.015;
     public static final double PROBOFTRUCK = 0.01;
 
     private static final int SWIPE_THRESHOLD = 100;
@@ -97,7 +97,7 @@ public class Game {
     public void step() {
         for(Trucks truckrow : trucks){
             truckrow.step();
-            if(truckrow.size()<4){
+            if(truckrow.size()<3){
                 if(random.nextDouble()<PROBOFTRUCK)
                     truckrow.add(new Truck(0f, truckrow.y));
             }

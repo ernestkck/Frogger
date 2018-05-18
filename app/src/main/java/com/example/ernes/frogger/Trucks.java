@@ -13,7 +13,7 @@ import java.util.Random;
  */
 
 public class Trucks extends ArrayList<Truck> {
-    private static final float TRUCKSTEP = 0.01f;
+    private static final float TRUCKSTEP = 0.015f;
     private final boolean movingRight;
     float y;
     Random random = new Random();
