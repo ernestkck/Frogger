@@ -128,7 +128,7 @@ public class Game {
                 }
             }
         }
-        if (onLog == false) frogKilled = true;
+        if((frog.pos.y>0.1 && frog.pos.y<0.45) && !onLog) frogKilled = true;
         // Win
         if(frog.pos.y>0.01f && frog.pos.y<0.1f)
             hasWon = true;
