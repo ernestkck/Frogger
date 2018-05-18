@@ -129,7 +129,7 @@ public class Game {
             }
         }
         // Win
-        if(frog.pos.y<01)
+        if(frog.pos.y>0.01f && frog.pos.y<0.1f)
             hasWon = true;
     }
 
