@@ -61,7 +61,7 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
         Log.d("game", "onSizeChanged!");
         viewWidth = w;
         viewHeight = h;
-        logImage = Bitmap.createScaledBitmap(logImage, (int) (w*0.25), (int) (h*0.05), true);
+        logImage = Bitmap.createScaledBitmap(logImage, (int) (w*0.3), (int) (h*0.05), true);
         truckImages[0] = Bitmap.createScaledBitmap(truckImages[0], (int) (w*0.25), (int) (h*0.08), true);
         truckImages[1] = Bitmap.createScaledBitmap(truckImages[1], (int) (w*0.25), (int) (h*0.08), true);
         truckImages[2] = Bitmap.createScaledBitmap(truckImages[2], (int) (w*0.25), (int) (h*0.08), true);

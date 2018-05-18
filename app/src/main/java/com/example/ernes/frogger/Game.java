@@ -25,7 +25,7 @@ public class Game {
     public static final float MINXY = 0.0f;
     static final int LOGROWS = 3;
     static final int TRUCKROWS = 3;
-    public static final double PROBOFLOG = 0.01;
+    public static final double PROBOFLOG = 0.02;
     public static final double PROBOFTRUCK = 0.01;
 
     private static final int SWIPE_THRESHOLD = 100;
@@ -36,7 +36,7 @@ public class Game {
     private Logs[] logs;
     private Trucks[] trucks;
 
-    private boolean frogKilled, hasWon;
+    private boolean frogKilled, hasWon, onLog;
 
     public Game(){
         frog = new Frog();
@@ -82,8 +82,8 @@ public class Game {
         float diffY = e2.getY() - e1.getY();
         if(Math.abs(diffX) > Math.abs(diffY)){
             if(Math.abs(diffX) > SWIPE_THRESHOLD) {
-                if (e1.getX() < e2.getX()) frog.pos.x += 0.2f;
-                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.2f;
+                if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
+                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
             }
         }
         else{
@@ -97,7 +97,7 @@ public class Game {
     public void step() {
         for(Trucks truckrow : trucks){
             truckrow.step();
-            if(truckrow.size()<3){
+            if(truckrow.size()<4){
                 if(random.nextDouble()<PROBOFTRUCK)
                     truckrow.add(new Truck(0f, truckrow.y));
             }
@@ -105,7 +105,7 @@ public class Game {
 
         for(Logs logrow : logs){
             logrow.step();
-            if(logrow.size()<3){
+            if(logrow.size()<5){
                 if(random.nextDouble()<PROBOFLOG)
                     logrow.add(new Log(1.0f, logrow.y));
             }
@@ -118,17 +118,17 @@ public class Game {
                     frogKilled = true;
             }
         }
-        boolean onLog = false;
+        onLog = false;
         // if not on log
         for(Logs logrow : logs) {
             for (Log l : logrow) {
-                if(frog.pos.y>0.1 && frog.pos.y<0.45) {
-                    if (Math.abs(l.pos.x - frog.pos.x) < 0.13f && Math.abs(l.pos.y - frog.pos.y) < 0.02f)
+                if(frog.pos.y>0.1f && frog.pos.y<0.4f) {
+                    if (Math.abs(l.pos.x - frog.pos.x) < 0.15f && Math.abs(l.pos.y - frog.pos.y) < 0.05f)
                        onLog = true;
                 }
             }
         }
-        if((frog.pos.y>0.1 && frog.pos.y<0.45) && !onLog) frogKilled = true;
+        if((frog.pos.y>0.1f && frog.pos.y<0.4f) && !onLog) frogKilled = true;
         // Win
         if(frog.pos.y>0.01f && frog.pos.y<0.1f)
             hasWon = true;
