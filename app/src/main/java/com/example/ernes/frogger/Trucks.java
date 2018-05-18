@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -12,13 +13,14 @@ import java.util.Random;
  */
 
 public class Trucks extends ArrayList<Truck> {
-
-    public static final float TRUCKSTEP = 0.06f;
+    private static final float TRUCKSTEP = -0.01f;
     private final boolean movingRight;
+    float y;
     Random random = new Random();
 
-    public Trucks(boolean movingRight){
+    public Trucks(boolean movingRight, float y){
         this.movingRight = movingRight;
+        this.y = y;
     }
 
     public void draw(Canvas c, Paint p, Bitmap[] truckImages) {
@@ -27,5 +29,14 @@ public class Trucks extends ArrayList<Truck> {
 
 
     public void step() {
+        // make trucks move
+        for (Truck t : this) t.pos.x+=TRUCKSTEP;
+
+        // remove trucks off screen
+        Iterator<Truck> ti = this.iterator();
+        while (ti.hasNext()) {
+            Truck t = ti.next();
+            if (t.pos.x < Game.MINXY || t.pos.x > Game.MAXXY) ti.remove();
+        }
     }
 }

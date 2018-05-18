@@ -11,7 +11,7 @@ import android.graphics.Paint;
 
 public class Log extends Sprite {
 
-    private static final float VELOCITY = 0.06f;
+    private static final float VELOCITY = 0.01f;
     float v;
 
     public Log(float x, float y){

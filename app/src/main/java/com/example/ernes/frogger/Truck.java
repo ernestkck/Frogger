@@ -13,16 +13,20 @@ import java.util.Random;
 
 public class Truck extends Sprite {
 
-    private static final float VELOCITY = 0.06f;
+    private static final float VELOCITY = -0.01f;
     float v;
-    Random random = new Random();
+    int i;
+    Random random;
 
-    public Truck(){
+    public Truck(float x, float y){
+        random = new Random();
+        this.i = random.nextInt(3);
         this.v = VELOCITY;
+        this.pos = new Pos(x, y);
     }
 
     public void draw(Canvas c, Paint p, Bitmap[] images) {
-        super.draw(c,p, images[random.nextInt(images.length)]);
+        super.draw(c,p, images[i]);
     }
 
     @Override

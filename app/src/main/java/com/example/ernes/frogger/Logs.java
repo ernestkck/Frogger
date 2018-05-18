@@ -5,14 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
  *  @author Ernest Kwan (u6381103)
  */
 public class Logs extends ArrayList<Log> {
+    private static final float LOGSTEP = 0.01f;
     float y;
-    public static final float LOGSTEP = 0.06f;
     boolean movingRight;
     private Random random = new Random();
 
@@ -26,9 +27,14 @@ public class Logs extends ArrayList<Log> {
     }
 
     public void step() {
-        if(this.size()<3){
-            if(movingRight) this.add(new Log(0, y));
-            else this.add(new Log(1.0f, y));
+        // make logs move
+        for (Log l : this) l.pos.x += LOGSTEP;
+
+        // remove logs off screen
+        Iterator<Log> li = this.iterator();
+        while (li.hasNext()) {
+            Log l = li.next();
+            if (l.pos.x < Game.MINXY || l.pos.x > Game.MAXXY) li.remove();
         }
     }
 }

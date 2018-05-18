@@ -26,11 +26,6 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
     public static final int STEPDELAY= 50;
     float viewWidth, viewHeight;
     float xt, yt;
-
-
-    float[] carY = new float[3], logY = new float[3];
-    ArrayList<MovingObject> cars = new ArrayList<>();
-    ArrayList<MovingObject> logs = new ArrayList<>();
     Handler timer;
     Game game;
 
@@ -66,22 +61,10 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
         Log.d("game", "onSizeChanged!");
         viewWidth = w;
         viewHeight = h;
-
-        carY[0] = viewHeight - 300;
-        carY[1] = viewHeight - 480;
-        carY[2] = viewHeight- 660;
-        logY[0] = 200;
-        logY[1] = 350;
-        logY[2] = 500;
-
-        cars.add(new MovingObject(0, carY[0], 1.5f, 200.0f));
-        cars.add(new MovingObject(viewWidth, carY[1], -1.5f, 200.0f));
-        cars.add(new MovingObject(0, carY[2], 1.5f, 200.0f));
-
-        logs.add(new MovingObject(viewWidth, logY[0], -1.5f, 200.0f));
-        logs.add(new MovingObject(0, logY[1], 1.5f, 200.0f));
-        logs.add(new MovingObject(viewWidth, logY[2], -1.5f, 200.0f));
-
+        logImage = Bitmap.createScaledBitmap(logImage, (int) (w*0.25), (int) (h*0.05), true);
+        truckImages[0] = Bitmap.createScaledBitmap(truckImages[0], (int) (w*0.25), (int) (h*0.08), true);
+        truckImages[1] = Bitmap.createScaledBitmap(truckImages[1], (int) (w*0.25), (int) (h*0.08), true);
+        truckImages[2] = Bitmap.createScaledBitmap(truckImages[2], (int) (w*0.25), (int) (h*0.08), true);
 
     }
 
@@ -92,14 +75,12 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
     }
 
 
-
     @Override
     public void run(){
         if(step()){
             timer.postDelayed(this, STEPDELAY);
         }
     }
-
 
     public boolean step(){
         game.step();

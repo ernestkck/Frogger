@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *  The main game class
@@ -20,54 +21,60 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private static final float MAXXY = 1.0f;
-    private static final float MINXY = 0.0f;
-    private static final int LOGROWS = 3;
-    private static final int TRUCKROWS = 3;
+    public static final float MAXXY = 1.0f;
+    public static final float MINXY = 0.0f;
+    static final int LOGROWS = 3;
+    static final int TRUCKROWS = 3;
+    public static final double PROBOFLOG = 0.01;
+    public static final double PROBOFTRUCK = 0.01;
 
     private static final int SWIPE_THRESHOLD = 100;
 
+    Random random = new Random();
 
     Frog frog;
-    private Logs logs;
-    private Trucks trucks;
-
-    ArrayList<Logs> logss;
+    private Logs[] logs;
+    private Trucks[] trucks;
 
     private boolean frogKilled;
 
-
     public Game(){
         frog = new Frog();
-        logs = new Logs(true, 0.3f);
+        logs = new Logs[LOGROWS];
+        trucks = new Trucks[TRUCKROWS];
+        for (int i=1; i<=LOGROWS;i++){
+            logs[i-1] = new Logs(true, 0.13f*i);
+        }
 
-        logs.add(new Log(0, 0.3f));
+        for (int i=1; i<=TRUCKROWS;i++){
+            trucks[i-1] = new Trucks(false, 0.9f - 0.13f*i);
+        }
 
-        /*for(int i = 0; i < LOGROWS; i++){
-            logs[i] = new Logs(i%2 == 0, 0.3f);
-            logs[i].add(new Log(0, 0.3f));
-        }*/
-        /*Trucks[] trucks = new Trucks[TRUCKROWS];
-        for(int i = 0; i < TRUCKROWS; i++){
-            trucks[i] = new Trucks(i%2 == 0);
-        }*/
         frogKilled = false;
     }
 
     public void draw(Canvas canvas, Paint paint, Bitmap frogImage, Bitmap logImage, Bitmap[] truckImages){
+        // Draw green finish area
+        paint.setColor(Color.GREEN);
+        int h = canvas.getHeight();
+        canvas.drawRect(0, 0, canvas.getWidth() , (int)(h*0.1), paint);
 
         // Draw river
         paint.setColor(Color.CYAN);
-        canvas.drawRect(0, 120, canvas.getWidth() , 650, paint);
+        canvas.drawRect(0, (int)(h*0.1), canvas.getWidth() , (int)(h*0.45), paint);
+
+        // Draw road
+        paint.setColor(Color.GRAY);
+        canvas.drawRect(0, (int)(h*0.55), canvas.getWidth() , (int)(h*0.9), paint);
+
+        for(Trucks truckrow : trucks){
+            truckrow.draw(canvas, paint, truckImages);
+        }
+        for(Logs logrow : logs){
+            logrow.draw(canvas, paint, logImage);
+        }
 
         frog.draw(canvas, paint, frogImage);
-        logs.draw(canvas, paint, logImage);
-        //logss.get(0).draw(canvas, paint, logImage);
-        /*logs[0].add(new Log(0, 0.03f));
-        logs[0].get(0).draw(canvas, paint, logImage);*/
-        //for(Logs logrow : logs) logrow.draw(canvas, paint, logImage);
-        //for(Trucks truckrow : trucks) truckrow.draw(canvas, paint, truckImages);
-
     }
 
     public void touch(MotionEvent e1, MotionEvent e2, float x, float y){
@@ -88,13 +95,33 @@ public class Game {
     }
 
     public void step() {
-        logs.step();
-        //for(Logs logrow : logs) logrow.step();
-        //for(Trucks truckrow : trucks) truckrow.step();
+        for(Trucks truckrow : trucks){
+            truckrow.step();
+            if(truckrow.size()<3){
+                if(random.nextDouble()<PROBOFTRUCK)
+                    truckrow.add(new Truck(1.0f, truckrow.y));
+            }
+        }
+
+        for(Logs logrow : logs){
+            logrow.step();
+            if(logrow.size()<3){
+                if(random.nextDouble()<PROBOFLOG)
+                    logrow.add(new Log(0, logrow.y));
+            }
+        }
+
+        // if hit by a truck
+        for(Trucks truckrow : trucks) {
+            for (Truck t : truckrow) {
+                if (Math.abs(t.pos.x - frog.pos.x) < 0.05f && Math.abs(t.pos.y - frog.pos.y) < 0.01f )
+                    frogKilled = true;
+            }
+        }
     }
 
     public boolean frogKilled() {
-        return false;
+        return frogKilled;
     }
 
     public boolean hasWon() {
