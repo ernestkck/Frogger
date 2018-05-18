@@ -1,5 +1,5 @@
 package com.example.ernes.frogger;
 
 public interface GameOver {
-    public void gameOver();
+    public void gameOver(int cond);
 }

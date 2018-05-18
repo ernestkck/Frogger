@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  *  The activity that holds the game
@@ -35,7 +36,9 @@ public class GameActivity extends AppCompatActivity implements GameOver{
     }
 
     @Override
-    public void gameOver() {
+    public void gameOver(int cond) {
+        if(cond == 1) Toast.makeText(this, "You Win!", Toast.LENGTH_LONG).show();
+        else  Toast.makeText(this, "You Lose!", Toast.LENGTH_LONG).show();
         setResult(AppCompatActivity.RESULT_OK);
         finish();
     }

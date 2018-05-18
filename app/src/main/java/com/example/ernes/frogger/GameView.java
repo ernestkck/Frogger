@@ -84,16 +84,20 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
 
     public boolean step(){
         game.step();
-        if(game.hasWon() || game.frogKilled()){
-            notifyGameOver();
+        if(game.hasWon()){
+            for (GameOver o : observers){
+                o.gameOver(1);
+            }
+            return false;
+        }
+        else if(game.frogKilled()){
+            for (GameOver o : observers){
+                o.gameOver(2);
+            }
             return false;
         }
         this.invalidate();
         return true;
-    }
-
-    private void notifyGameOver() {
-        for (GameOver o : observers) o.gameOver();
     }
 
     public void registerGameOver(GameOver gameover) {
@@ -112,6 +116,7 @@ public class GameView extends View implements Runnable, GestureDetector.OnGestur
 
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
+        game.click(motionEvent);
         return true;
     }
 

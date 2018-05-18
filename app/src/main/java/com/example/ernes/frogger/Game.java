@@ -25,8 +25,8 @@ public class Game {
     public static final float MINXY = 0.0f;
     static final int LOGROWS = 3;
     static final int TRUCKROWS = 3;
-    public static final double PROBOFLOG = 0.015;
-    public static final double PROBOFTRUCK = 0.01;
+    public static final double PROBOFLOG = 0.03;
+    public static final double PROBOFTRUCK = 0.02;
 
     private static final int SWIPE_THRESHOLD = 100;
 
@@ -92,21 +92,25 @@ public class Game {
                 else if (e1.getY() > e2.getY()) frog.pos.y -= 0.05f;
             }
         }
+        System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
     }
-
+    public void click(MotionEvent e1){
+        frog.pos.y -= 0.05f;
+        System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
+    }
     public void step() {
         for(Trucks truckrow : trucks){
             truckrow.step();
-            if(truckrow.size()<3){
-                if(random.nextDouble()<PROBOFTRUCK)
+            if(truckrow.size()<=3){
+                if(random.nextDouble() * truckrow.size() < PROBOFTRUCK)
                     truckrow.add(new Truck(0f, truckrow.y));
             }
         }
 
         for(Logs logrow : logs){
             logrow.step();
-            if(logrow.size()<5){
-                if(random.nextDouble()<PROBOFLOG)
+            if(logrow.size()<=3){
+                if(random.nextDouble() * logrow.size() < PROBOFLOG)
                     logrow.add(new Log(1.0f, logrow.y));
             }
         }
@@ -123,14 +127,14 @@ public class Game {
         for(Logs logrow : logs) {
             for (Log l : logrow) {
                 if(frog.pos.y>0.1f && frog.pos.y<0.4f) {
-                    if (Math.abs(l.pos.x - frog.pos.x) < 0.15f && Math.abs(l.pos.y - frog.pos.y) < 0.05f)
+                    if (Math.abs(l.pos.x - frog.pos.x) < 0.2f && Math.abs(l.pos.y - frog.pos.y) < 0.07f)
                        onLog = true;
                 }
             }
         }
         if((frog.pos.y>0.1f && frog.pos.y<0.4f) && !onLog) frogKilled = true;
         // Win
-        if(frog.pos.y>0.01f && frog.pos.y<0.1f)
+        if(frog.pos.y < 0)
             hasWon = true;
     }
 
