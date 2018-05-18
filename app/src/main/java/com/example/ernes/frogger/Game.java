@@ -82,8 +82,8 @@ public class Game {
         float diffY = e2.getY() - e1.getY();
         if(Math.abs(diffX) > Math.abs(diffY)){
             if(Math.abs(diffX) > SWIPE_THRESHOLD) {
-                if (e1.getX() < e2.getX()) frog.pos.x += 0.05f;
-                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.05f;
+                if (e1.getX() < e2.getX()) frog.pos.x += 0.2f;
+                else if (e1.getX() > e2.getX()) frog.pos.x -= 0.2f;
             }
         }
         else{
@@ -114,20 +114,21 @@ public class Game {
         // if hit by a truck
         for(Trucks truckrow : trucks) {
             for (Truck t : truckrow) {
-                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.04f )
+                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.05f )
                     frogKilled = true;
             }
         }
-
+        boolean onLog = false;
         // if not on log
         for(Logs logrow : logs) {
             for (Log l : logrow) {
                 if(frog.pos.y>0.1 && frog.pos.y<0.45) {
-                    if (Math.abs(l.pos.x - frog.pos.x) > 0.13f && Math.abs(l.pos.y - frog.pos.y) > 0.02f)
-                        frogKilled = true;
+                    if (Math.abs(l.pos.x - frog.pos.x) < 0.13f && Math.abs(l.pos.y - frog.pos.y) < 0.02f)
+                       onLog = true;
                 }
             }
         }
+        if (onLog == false) frogKilled = true;
         // Win
         if(frog.pos.y>0.01f && frog.pos.y<0.1f)
             hasWon = true;
