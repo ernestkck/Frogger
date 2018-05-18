@@ -13,7 +13,7 @@ import java.util.Random;
  */
 
 public class Trucks extends ArrayList<Truck> {
-    private static final float TRUCKSTEP = -0.01f;
+    private static final float TRUCKSTEP = 0.01f;
     private final boolean movingRight;
     float y;
     Random random = new Random();
@@ -30,7 +30,10 @@ public class Trucks extends ArrayList<Truck> {
 
     public void step() {
         // make trucks move
-        for (Truck t : this) t.pos.x+=TRUCKSTEP;
+        if(movingRight)
+            for (Truck t : this) t.pos.x+=TRUCKSTEP;
+        else
+            for (Truck t : this) t.pos.x-=TRUCKSTEP;
 
         // remove trucks off screen
         Iterator<Truck> ti = this.iterator();

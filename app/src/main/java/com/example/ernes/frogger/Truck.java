@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Truck extends Sprite {
 
-    private static final float VELOCITY = -0.01f;
+    private static final float VELOCITY = 0.01f;
     float v;
     int i;
     Random random;

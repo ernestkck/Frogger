@@ -42,12 +42,12 @@ public class Game {
         frog = new Frog();
         logs = new Logs[LOGROWS];
         trucks = new Trucks[TRUCKROWS];
-        for (int i=1; i<=LOGROWS;i++){
-            logs[i-1] = new Logs(true, 0.13f*i);
+        for (int i=0; i<LOGROWS;i++){
+            logs[i] = new Logs(false, 0.1f + 0.13f*i);
         }
 
-        for (int i=1; i<=TRUCKROWS;i++){
-            trucks[i-1] = new Trucks(false, 0.9f - 0.13f*i);
+        for (int i=0; i<TRUCKROWS;i++){
+            trucks[i] = new Trucks(true, 0.8f - 0.12f*i);
         }
 
         frogKilled = false;
@@ -99,7 +99,7 @@ public class Game {
             truckrow.step();
             if(truckrow.size()<3){
                 if(random.nextDouble()<PROBOFTRUCK)
-                    truckrow.add(new Truck(1.0f, truckrow.y));
+                    truckrow.add(new Truck(0f, truckrow.y));
             }
         }
 
@@ -107,15 +107,25 @@ public class Game {
             logrow.step();
             if(logrow.size()<3){
                 if(random.nextDouble()<PROBOFLOG)
-                    logrow.add(new Log(0, logrow.y));
+                    logrow.add(new Log(1.0f, logrow.y));
             }
         }
 
         // if hit by a truck
         for(Trucks truckrow : trucks) {
             for (Truck t : truckrow) {
-                if (Math.abs(t.pos.x - frog.pos.x) < 0.05f && Math.abs(t.pos.y - frog.pos.y) < 0.01f )
+                if (Math.abs(t.pos.x - frog.pos.x) < 0.13f && Math.abs(t.pos.y - frog.pos.y) < 0.02f )
                     frogKilled = true;
+            }
+        }
+
+        // if not on log
+        for(Logs logrow : logs) {
+            for (Log l : logrow) {
+                if(frog.pos.y>0.1 && frog.pos.y<0.45) {
+                    if (Math.abs(l.pos.x - frog.pos.x) > 0.13f && Math.abs(l.pos.y - frog.pos.y) > 0.02f)
+                        frogKilled = true;
+                }
             }
         }
     }
@@ -125,6 +135,8 @@ public class Game {
     }
 
     public boolean hasWon() {
-        return false;
+        if(frog.pos.y<01)
+            return true;
+        else return false;
     }
 }

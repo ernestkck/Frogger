@@ -28,7 +28,10 @@ public class Logs extends ArrayList<Log> {
 
     public void step() {
         // make logs move
-        for (Log l : this) l.pos.x += LOGSTEP;
+        if(movingRight)
+            for (Log l : this) l.pos.x += LOGSTEP;
+        else
+            for (Log l : this) l.pos.x -= LOGSTEP;
 
         // remove logs off screen
         Iterator<Log> li = this.iterator();
