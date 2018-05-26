@@ -12,7 +12,7 @@ import java.util.Random;
  *  @author Ernest Kwan (u6381103)
  */
 public class Logs extends ArrayList<Log> {
-    private static final float LOGSTEP = 0.01f;
+    static final float LOGSTEP = 0.01f;
     float y;
     boolean movingRight;
     private Random random = new Random();

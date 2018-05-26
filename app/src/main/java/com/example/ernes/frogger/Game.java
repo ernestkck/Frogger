@@ -88,14 +88,14 @@ public class Game {
         }
         else{
             if(Math.abs(diffY) > SWIPE_THRESHOLD) {
-                if (e1.getY() < e2.getY()) frog.pos.y = Math.min(frog.pos.y + 0.05f, 0.9f);
-                else if (e1.getY() > e2.getY()) frog.pos.y = Math.max(frog.pos.y - 0.05f, -0.1f);
+                if (e1.getY() < e2.getY()) frog.pos.y = Math.min(frog.pos.y + 0.11f, 0.9f);
+                else if (e1.getY() > e2.getY()) frog.pos.y = Math.max(frog.pos.y - 0.11f, -0.1f);
             }
         }
         System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
     }
     public void click(MotionEvent e1){
-        frog.pos.y -= 0.05f;
+        frog.pos.y -= 0.11f;
         System.out.println("x: " + frog.pos.x + " y: " + frog.pos.y);
     }
     public void step() {
@@ -127,13 +127,16 @@ public class Game {
         // if not on log
         for(Logs logrow : logs) {
             for (Log l : logrow) {
-                if(frog.pos.y>0.1f && frog.pos.y<0.4f) {
-                    if (Math.abs(l.pos.x - frog.pos.x) < 0.2f && Math.abs(l.pos.y - frog.pos.y) < 0.07f)
+                if(frog.pos.y>0.04f && frog.pos.y<=0.4f) {
+                    if (Math.abs(l.pos.x - frog.pos.x) < 0.2f && Math.abs(l.pos.y - frog.pos.y) < 0.05f)
                        onLog = true;
                 }
             }
         }
-        if((frog.pos.y>0.1f && frog.pos.y<0.4f) && !onLog) frogKilled = true;
+        if(frog.pos.y>0.04f && frog.pos.y<=0.4f){
+            if(onLog) frog.pos.x -= Logs.LOGSTEP;
+            else frogKilled = true;
+        }
         // Win
         if(frog.pos.y < 0)
             hasWon = true;
